@@ -17,8 +17,8 @@ public class Brad31 {
 		urBike.upSpeed();
 		urBike.downSpeed();
 		
-		System.out.println(myBike.getSpeed());
-		System.out.println(urBike.getSpeed());
+//		System.out.println(myBike.getSpeed());
+//		System.out.println(urBike.getSpeed());
 		
 //		myBike.speed = 3.1;
 //		System.out.println(myBike.speed);
