@@ -1,6 +1,6 @@
 package tw.brad.myclass;
 
-public final class Test02 extends Test01{
+public class Test02 extends Test01{
 //	public Test02() {
 //		//super();
 //		System.out.println("Test02()");
