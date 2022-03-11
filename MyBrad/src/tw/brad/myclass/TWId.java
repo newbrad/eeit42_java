@@ -8,19 +8,44 @@ public class TWId {
 		this((int)(Math.random()*2) == 0);
 	}
 	public TWId(boolean isMale) {
-		this((int)(Math.random()*26) ,isMale)
+		this((int)(Math.random()*26) ,isMale);
 	}
 	public TWId(int area) {
 		this(area, (int)(Math.random()*2) == 0);
 	}
 	public TWId(int area, boolean isMale) {
-		letters.substring(area, area+1);
+		StringBuffer sb = new StringBuffer(letters.substring(area, area+1));
+		sb.append(isMale?"1":"2")
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10))
+			.append((int)(Math.random()*10));
+		
+		String temp = sb.toString();
+		for (int i = 0; i<10; i++) {
+			if (isValid(temp + i)) {
+				this.id = temp + i;
+				break;
+			}
+		}
+	}
+
+	private TWId(String id) {
+		this.id = id;
 	}
 	
+	public static TWId createTWId(String urId) {
+		TWId twId = null;
+		if (isValid(urId)) {
+			twId = new TWId(urId);
+		}
+		return twId;
+	}
 	
-//	public TWId(String id) {
-//		this.id = id;
-//	}
+	public String getId() {return id;}
 	
 	public static boolean isValid(String id) {
 		boolean result = false;
