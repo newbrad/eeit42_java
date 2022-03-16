@@ -3,8 +3,11 @@ package tw.brad.tutor;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileReader;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -41,12 +44,15 @@ public class GuessNumber extends JFrame implements ActionListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				doGuess();
+				//openFile();
 			}
 		});
 		
 		setSize(640, 480);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		newGame();
 	}
 	
 	class MyListenerV2 implements ActionListener {
@@ -56,11 +62,32 @@ public class GuessNumber extends JFrame implements ActionListener{
 		}
 	}
 	
+//	private void openFile() {
+//		JFileChooser jfc = new JFileChooser();
+//		if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+//			File openFile = jfc.getSelectedFile();
+//			try {
+//				FileReader reader = new FileReader(openFile);
+//				int c;
+//				while ((c = reader.read()) != -1) {
+//					log.append((char)c + "");
+//				}
+//			}catch(Exception e) {
+//				
+//			}
+//		}
+//	}
+	
 	private void doGuess() {
-		// counter++
-		// get input String
-		// checkAB() => ?A?B
-		// display => log
+		// TODO 還沒寫完
+		counter++;
+		String gText = input.getText();
+		// 
+		String result = checkAB();
+		log.setText(String.format("%d. %s => %s\n", 
+				counter, gText, result));
+		// 清除 input
+		
 		// if (?A?B .equals("3A0B")) => showResultDialog(true);
 		// if (counter == 10) =>showResultDialog(false);
 	}
@@ -96,7 +123,17 @@ public class GuessNumber extends JFrame implements ActionListener{
 	}
 	
 	private String checkAB() {
-		return "1A2B";
+		// TODO checkAB
+		String gtext = input.getText();
+		int a, b; a = b = 0;
+		for (int i=0; i<answer.length(); i++) {
+			if (answer.charAt(i) == gtext.charAt(i)) {
+				a++;
+			}else if (answer.indexOf(gtext.charAt(i)) != -1) {
+				b++;
+			}
+		}
+		return String.format("%dA%dB", a,b);
 	}
 	
 	private void showResultDialog(boolean isWin) {
@@ -104,9 +141,11 @@ public class GuessNumber extends JFrame implements ActionListener{
 	}
 	
 	private void newGame() {
+		// TODO .......
 		// counter = 0
 		// input, log => clear
-		// createAnswer
+		answer = createAnswer(3);
+		System.out.println(answer);
 	}
 	
 	public static void main(String[] args) {
