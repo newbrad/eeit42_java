@@ -7,8 +7,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import tw.brad.myclass.MyDrawer;
+
 public class MyPainter extends JFrame{
 	private JButton clear;
+	private MyDrawer myDrawer;
 	
 	public MyPainter() {
 		super("簽名");
@@ -19,6 +22,8 @@ public class MyPainter extends JFrame{
 		top.add(clear);
 		
 		add(top, BorderLayout.NORTH);
+		myDrawer = new MyDrawer();
+		add(myDrawer, BorderLayout.CENTER);
 		
 		setSize(640, 480);
 		setVisible(true);
