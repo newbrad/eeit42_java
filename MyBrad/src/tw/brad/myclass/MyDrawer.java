@@ -6,13 +6,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class MyDrawer extends JPanel {
-	private LinkedList<LinkedList<HashMap<String,Integer>>> lines;
+	private LinkedList<LinkedList<HashMap<String,Integer>>> lines, recycle;
 	
 	public MyDrawer() {
 		setBackground(Color.YELLOW);
@@ -20,6 +24,7 @@ public class MyDrawer extends JPanel {
 		addMouseListener(myListener);
 		addMouseMotionListener(myListener);
 		lines = new LinkedList<>();
+		recycle = new LinkedList<>();
 	}
 	
 	@Override
@@ -50,6 +55,8 @@ public class MyDrawer extends JPanel {
 			
 			lines.add(line);
 			repaint();
+			
+			recycle.clear();
 		}
 		@Override
 		public void mouseDragged(MouseEvent e) {
@@ -58,6 +65,38 @@ public class MyDrawer extends JPanel {
 			lines.getLast().add(point);
 			repaint();
 		}
+	}
+	
+	public void clear() {
+		lines.clear();
+		repaint();
+	}
+	public void undo() {
+		if (lines.size()>0) {
+			recycle.add(lines.removeLast());
+			repaint();
+		}
+	}
+	public void redo() {
+		if (recycle.size()>0) {
+			lines.add(recycle.removeLast());
+			repaint();
+		}
+	}
+	
+	public void saveV2() {
+		BufferedImage img = new BufferedImage(
+				getWidth(), getHeight(), 
+				BufferedImage.TYPE_INT_RGB);
+		Graphics g = img.createGraphics();
+		paint(g);
+		
+		try {
+			ImageIO.write(img, "jpg", new File("dir1/brad.jpg"));
+		} catch (IOException e) {
+			System.out.println(e.toString());
+		}
+		
 	}
 	
 }
