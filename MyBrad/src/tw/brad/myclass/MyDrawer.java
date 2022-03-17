@@ -12,14 +12,14 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 
 public class MyDrawer extends JPanel {
-	private LinkedList<HashMap<String,Integer>> line;
+	private LinkedList<LinkedList<HashMap<String,Integer>>> lines;
 	
 	public MyDrawer() {
 		setBackground(Color.YELLOW);
 		MyListener myListener = new MyListener();
 		addMouseListener(myListener);
 		addMouseMotionListener(myListener);
-		line = new LinkedList<>();
+		lines = new LinkedList<>();
 	}
 	
 	@Override
@@ -29,18 +29,34 @@ public class MyDrawer extends JPanel {
 		
 		g2d.setColor(Color.BLUE);
 		g2d.setStroke(new BasicStroke(4));
-		g2d.drawLine(0, 0, 200, 200);
 		
+		for (LinkedList<HashMap<String,Integer>> line : lines) {
+			for (int i=1;i<line.size();i++) {
+				HashMap<String, Integer> p1 = line.get(i-1);
+				HashMap<String, Integer> p2 = line.get(i);
+				g2d.drawLine(p1.get("x"), p1.get("y"), p2.get("x"), p2.get("y"));			
+			}			
+		}
 	}
 	
 	private class MyListener extends MouseAdapter {
 		@Override
 		public void mousePressed(MouseEvent e) {
-			System.out.println("Press:" + e.getX() + " x " + e.getY());
+			HashMap<String, Integer> point = new HashMap<String, Integer>();
+			point.put("x", e.getX()); point.put("y", e.getY());
+			
+			LinkedList<HashMap<String, Integer>> line = new LinkedList<>();
+			line.add(point);
+			
+			lines.add(line);
+			repaint();
 		}
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			System.out.println("Drag:" + e.getX() + " x " + e.getY());
+			HashMap<String, Integer> point = new HashMap<String, Integer>();
+			point.put("x", e.getX()); point.put("y", e.getY());
+			lines.getLast().add(point);
+			repaint();
 		}
 	}
 	
