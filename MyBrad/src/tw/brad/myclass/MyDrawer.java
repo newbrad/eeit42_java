@@ -8,7 +8,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -36,10 +40,12 @@ public class MyDrawer extends JPanel {
 		g2d.setStroke(new BasicStroke(4));
 		
 		for (LinkedList<HashMap<String,Integer>> line : lines) {
+			
 			for (int i=1;i<line.size();i++) {
 				HashMap<String, Integer> p1 = line.get(i-1);
 				HashMap<String, Integer> p2 = line.get(i);
-				g2d.drawLine(p1.get("x"), p1.get("y"), p2.get("x"), p2.get("y"));			
+				g2d.drawLine(p1.get("x"), p1.get("y"), p2.get("x"), p2.get("y"));
+			
 			}			
 		}
 	}
@@ -98,5 +104,28 @@ public class MyDrawer extends JPanel {
 		}
 		
 	}
+	
+	public void saveLines(File svaeFile) throws Exception {
+		ObjectOutputStream oout = 
+			new ObjectOutputStream(new FileOutputStream(svaeFile));
+		oout.writeObject(lines);
+		oout.flush();
+		oout.close();
+	}
+	
+	public void loadLines(File loadFile) throws Exception{
+		ObjectInputStream oin = 
+			new ObjectInputStream(new FileInputStream(loadFile));
+		Object obj = oin.readObject();
+		oin.close();
+		
+		lines = (LinkedList<LinkedList<HashMap<String,Integer>>>)obj;
+		repaint();
+		
+	}
+	
+	
+	
+	
 	
 }

@@ -11,13 +11,15 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import tw.brad.myclass.MyDrawer;
 
 public class MyPainter extends JFrame{
-	private JButton clear, undo, redo, saveJPG;
+	private JButton clear, undo, redo, saveJPG, saveObj, loadObj;
 	private MyDrawer myDrawer;
 	
 	public MyPainter() {
@@ -29,8 +31,10 @@ public class MyPainter extends JFrame{
 		undo = new JButton("上一步");
 		redo = new JButton("復原");
 		saveJPG = new JButton("存檔");
+		saveObj = new JButton("存物件");
+		loadObj = new JButton("載物件");
 		top.add(clear); top.add(undo); top.add(redo);
-		top.add(saveJPG);
+		top.add(saveJPG); top.add(saveObj); top.add(loadObj);
 		
 		add(top, BorderLayout.NORTH);
 		myDrawer = new MyDrawer();
@@ -68,6 +72,18 @@ public class MyPainter extends JFrame{
 				saveJPG();
 			}
 		});
+		saveObj.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveObj();
+			}
+		});
+		loadObj.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadObj();
+			}
+		});
 	}
 	
 	private void clear() {
@@ -92,6 +108,31 @@ public class MyPainter extends JFrame{
 			System.out.println(e.toString());
 		}
 		
+	}
+	
+	private void saveObj() {
+		JFileChooser jfc = new JFileChooser();
+		if (jfc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File file = jfc.getSelectedFile();
+			try {
+				myDrawer.saveLines(file);
+				JOptionPane.showMessageDialog(null, "存檔成功");
+			}catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "存檔失敗");
+			}
+		}
+	}
+	
+	private void loadObj() {
+		JFileChooser jfc = new JFileChooser();
+		if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File file = jfc.getSelectedFile();
+			try {
+				myDrawer.loadLines(file);
+			}catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "載入失敗");
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
