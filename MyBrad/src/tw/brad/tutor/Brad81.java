@@ -1,5 +1,6 @@
 package tw.brad.tutor;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -11,8 +12,14 @@ public class Brad81 {
 		try {
 			Socket socket = new Socket(
 					InetAddress.getByName("10.0.104.154"), 7777);
+			
+			BufferedOutputStream bout = new BufferedOutputStream(
+					socket.getOutputStream());
+			bout.write("Hello, Brad".getBytes());
+			bout.close();
+			
 			socket.close();
-			System.out.println("client OK");
+			System.out.println("OK");
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
