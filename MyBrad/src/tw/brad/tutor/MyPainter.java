@@ -16,23 +16,27 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import tw.brad.myclass.MyClock;
 import tw.brad.myclass.MyDrawer;
 
 public class MyPainter extends JFrame{
 	private JButton clear, undo, redo, saveJPG, saveObj, loadObj;
 	private MyDrawer myDrawer;
+	private MyClock myClock;
 	
 	public MyPainter() {
 		super("簽名");
 		setLayout(new BorderLayout());
 		JPanel top = new JPanel(new FlowLayout());
 		
+		myClock = new MyClock();
 		clear = new JButton("清除");
 		undo = new JButton("上一步");
 		redo = new JButton("復原");
 		saveJPG = new JButton("存檔");
 		saveObj = new JButton("存物件");
 		loadObj = new JButton("載物件");
+		top.add(myClock);
 		top.add(clear); top.add(undo); top.add(redo);
 		top.add(saveJPG); top.add(saveObj); top.add(loadObj);
 		
