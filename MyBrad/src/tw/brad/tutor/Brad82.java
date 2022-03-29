@@ -8,26 +8,40 @@ import java.net.Socket;
 public class Brad82 {
 
 	public static void main(String[] args) {
-		try {
-			ServerSocket server = new ServerSocket(7777);
-			Socket socket = server.accept();
+		try (ServerSocket server = new ServerSocket(7777)){
 			
-			String host = socket.getInetAddress().getHostAddress();
-			FileOutputStream fout = new FileOutputStream("dir1/" + host + ".jpg");
-			
-			BufferedInputStream bin = 
-					new BufferedInputStream(socket.getInputStream());
-			byte[] buf = new byte[4096];
-			int len;
-			while ((len = bin.read(buf)) != -1) {
-				fout.write(buf,0,len);
+			while(true) {
+				Socket socket = server.accept();
+				System.out.println(socket.getInetAddress().getHostAddress());
+				if (socket == null) break;
+				
+				new Thread() {
+					public void run() {
+						try {
+							
+							String host = socket.getInetAddress().getHostAddress();
+							FileOutputStream fout = new FileOutputStream("dir1/" + host + ".jpg");
+							
+							BufferedInputStream bin = 
+									new BufferedInputStream(socket.getInputStream());
+							byte[] buf = new byte[4096];
+							int len;
+							while ((len = bin.read(buf)) != -1) {
+								fout.write(buf,0,len);
+							}
+							bin.close();
+							
+							fout.flush();
+							fout.close();
+						}catch(Exception e) {
+							System.out.println(e.toString());
+						}
+						
+					};
+				}.start();
 			}
-			bin.close();
 			
-			fout.flush();
-			fout.close();
 			server.close();
-			System.out.println("Server OK");
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

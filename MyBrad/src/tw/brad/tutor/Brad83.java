@@ -12,7 +12,7 @@ public class Brad83 {
 
 	public static void main(String[] args) {
 		try {
-			File source = new File("");
+			File source = new File("dir1/coffee.jpg");
 			byte[] buf = new byte[(int)source.length()];
 			FileInputStream fin = new FileInputStream(source);
 			fin.read(buf);
