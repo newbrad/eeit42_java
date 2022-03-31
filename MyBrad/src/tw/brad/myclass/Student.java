@@ -7,13 +7,18 @@ public class Student implements Serializable{
 	//private transient int eng;
 	private int eng;
 	private String name;
+	private Bike bike;
+	
 	public Student(String name, int ch, int eng, int math) {
 		this.name = name;
 		this.ch = ch;
 		this.eng = eng;
 		this.math = math;
+		bike = new Bike();
 	}
-	
+	public Bike getBike() {
+		return bike;
+	}
 	public int score() {
 		return ch + eng + math;
 	}
