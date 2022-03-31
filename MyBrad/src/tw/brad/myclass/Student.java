@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 public class Student implements Serializable{
 	private int ch, math;
-	private transient int eng;
+	//private transient int eng;
+	private int eng;
 	private String name;
 	public Student(String name, int ch, int eng, int math) {
 		this.name = name;
